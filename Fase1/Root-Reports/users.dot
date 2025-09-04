@@ -1,0 +1,15 @@
+digraph ListaEnlazada {
+  rankdir=LR;
+  nodesep=0.5;
+
+  subgraph cluster_0 {
+    label="Lista simple enlazada";
+    fontsize=14;
+    color=black;
+    style=filled;
+    fillcolor=white;
+    node [shape=record, style=filled, fillcolor=lightblue];
+
+    null [label="VACÍA", shape=plaintext];
+  }
+}
