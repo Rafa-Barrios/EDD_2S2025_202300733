@@ -3,10 +3,10 @@
     {
       "id" : 1,
       "nombre" : "Luis Garcia",
-      "usuario" : "lgarcia",
+      "usuario" : "calificacion2025",
       "password" : "lg123",
       "email" : "lg@edd.com",
-      "telefono" : "12345678"
+      "telefono" : ""
     },
     {
       "id" : 2,
@@ -79,22 +79,14 @@
       "password" : "imurdock123",
       "email" : "imurdock@edd.com",
       "telefono" : "41235678"
-    },
-    {
-      "id" : 111,
-      "nombre" : "l",
-      "email" : "lll",
-      "usuario" : "luis",
-      "telefono" : "9090",
-      "password" : "111"
-    },
-    {
-      "id" : 2,
-      "nombre" : "a",
-      "email" : "aaa",
-      "usuario" : "angel",
-      "telefono" : "3333",
-      "password" : "111"
     }
   ]
 }
+
+
+modificacion
+1ra inicio de sesion con usuario 
+2da enviar correo con usuario
+3ra agregar contacto con usuario 
+
+fecha de hoy 13/9/25 3:55

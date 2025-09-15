@@ -9,7 +9,9 @@ procedure ShowUserNewContactWindow;
 implementation
 
 uses
-    gtk2, glib2, SysUtils, variables, simpleLinkedList, circularLinkedList, jsonTools, userHome;
+    gtk2, glib2, SysUtils,
+    variables, simpleLinkedList, circularLinkedList,
+    jsonTools, userHome;
 
 var
     newContactWindow: PGtkWidget;
@@ -24,11 +26,13 @@ procedure ShowInfoMessage(const title, message: string);
 var
     dialog: PGtkWidget;
 begin
-    dialog := gtk_message_dialog_new(GTK_WINDOW(newContactWindow),
-                                     GTK_DIALOG_MODAL,
-                                     GTK_MESSAGE_INFO,
-                                     GTK_BUTTONS_OK,
-                                     PChar(message));
+    dialog := gtk_message_dialog_new(
+        GTK_WINDOW(newContactWindow),
+        GTK_DIALOG_MODAL,
+        GTK_MESSAGE_INFO,
+        GTK_BUTTONS_OK,
+        PChar(message)
+    );
     gtk_window_set_title(GTK_WINDOW(dialog), PChar(title));
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
@@ -50,6 +54,7 @@ procedure OnAddClick(widget: PGtkWidget; data: gpointer); cdecl;
 var
     emailText: string;
     userNode: TUserData;
+    success: Boolean;
 begin
     emailText := gtk_entry_get_text(GTK_ENTRY(entryEmail));
 
@@ -67,11 +72,34 @@ begin
         Exit;
     end;
 
-    // Agregar a lista circular
-    CL_Insert(userNode.id, userNode.name, userNode.email);
+    // Guardar contacto en archivo JSON
+    success := AddContactToJson(
+        json_file_contacts,
+        current_user_username,
+        userNode.name,
+        userNode.username,
+        userNode.email,
+        userNode.phone
+    );
 
-    ShowInfoMessage('Éxito', 'Contacto agregado: ' + userNode.name + ' (' + userNode.email + ')');
-    gtk_entry_set_text(GTK_ENTRY(entryEmail), ''); // limpiar campo
+    if success then
+    begin
+        // También lo agregamos en la lista circular en memoria
+        CL_InsertToList(
+            current_user_contacts,
+            userNode.id,
+            userNode.name,
+            userNode.email,
+            userNode.phone
+        );
+
+        ShowInfoMessage('Éxito', 'Contacto agregado: ' + userNode.name + ' (' + userNode.email + ')');
+        gtk_entry_set_text(GTK_ENTRY(entryEmail), ''); // limpiar campo
+    end
+    else
+    begin
+        ShowInfoMessage('Error', 'No se pudo guardar el contacto en el archivo JSON.');
+    end;
 end;
 
 // -----------------------------
@@ -100,8 +128,8 @@ begin
     btnAdd := gtk_button_new_with_label('Agregar');
     btnCancel := gtk_button_new_with_label('Cancelar');
 
-    gtk_table_attach_defaults(GTK_TABLE(grid), btnAdd, 0, 1, 1, 2);
-    gtk_table_attach_defaults(GTK_TABLE(grid), btnCancel, 1, 2, 1, 2);
+    gtk_table_attach_defaults(GTK_TABLE(grid), btnAdd, 1, 2, 1, 2);
+    gtk_table_attach_defaults(GTK_TABLE(grid), btnCancel, 0, 1, 1, 2);
 
     g_signal_connect(btnAdd, 'clicked', G_CALLBACK(@OnAddClick), nil);
     g_signal_connect(btnCancel, 'clicked', G_CALLBACK(@OnCancelClick), nil);
@@ -114,4 +142,3 @@ begin
 end;
 
 end.
-

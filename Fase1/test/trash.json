@@ -1,0 +1,12 @@
+{
+  "mails" : [
+    {
+      "sender" : "imurdock@edd.com",
+      "receiver" : "lg@edd.com",
+      "subject" : "correo1",
+      "body" : "hola1",
+      "timestamp" : "13-9-25 15:44:42",
+      "estado" : "NL"
+    }
+  ]
+}

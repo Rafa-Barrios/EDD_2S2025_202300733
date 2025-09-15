@@ -1,0 +1,20 @@
+{
+  "mails" : [
+    {
+      "sender" : "imurdock@edd.com",
+      "receiver" : "lg@edd.com",
+      "subject" : "correo2",
+      "body" : "hola2",
+      "timestamp" : "13-9-25 15:44:57",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "imurdock@edd.com",
+      "receiver" : "lg@edd.com",
+      "subject" : "correo3",
+      "body" : "hola3",
+      "timestamp" : "13-9-25 15:45:13",
+      "estado" : "NL"
+    }
+  ]
+}

@@ -7,9 +7,10 @@ implementation
 
 uses
     gtk2, glib2,
+    SysUtils,
     userHome,
-    variables, interfaceTools
-;
+    variables, interfaceTools,
+    jsonTools, doubleLinkedList;
 
 var
     mailSendWindow: PGtkWidget;
@@ -17,20 +18,59 @@ var
     entryRecipient, entrySubject, entryMessage: PGtkWidget;
     btnSend, btnCancel: PGtkWidget;
 
-// Evento Enviar correo (funcionalidad pendiente)
+// ---------------------------
+// Evento Enviar correo
+// ---------------------------
 procedure OnSendClick(widget: PGtkWidget; data: gpointer); cdecl;
+var
+    recipientEmail, subject, message: string;
+    buffer: PGtkTextBuffer;
+    iterStart, iterEnd: TGtkTextIter;
 begin
-    writeln('Botón "Enviar" presionado. Funcionalidad pendiente.');
+    // Leer campos de entrada
+    recipientEmail := gtk_entry_get_text(GTK_ENTRY(entryRecipient));
+    subject := gtk_entry_get_text(GTK_ENTRY(entrySubject));
+
+    buffer := gtk_text_view_get_buffer(GTK_TEXT_VIEW(entryMessage));
+    gtk_text_buffer_get_start_iter(buffer, @iterStart);
+    gtk_text_buffer_get_end_iter(buffer, @iterEnd);
+    message := gtk_text_buffer_get_text(buffer, @iterStart, @iterEnd, True);
+
+    // Validar campos
+    if (recipientEmail = '') or (subject = '') or (message = '') then
+    begin
+        ShowErrorMessage(mailSendWindow, 'Error', 'Por favor complete todos los campos.');
+        Exit;
+    end;
+
+    // Guardar correo en JSON
+    if AddMailToJson(json_file_mails, current_user_email, recipientEmail, subject, message) then
+    begin
+        // Insertar en lista doble con estado = 'EN' (enviado)
+        DL_InsertToList(current_user_email, subject, message, DateTimeToStr(Now), 'EN');
+
+        ShowSuccessMessage(mailSendWindow, 'Éxito', 'Correo enviado correctamente.');
+
+        // Cerrar ventana y volver a Home
+        gtk_widget_destroy(mailSendWindow);
+        ShowUserHomeWindow;
+    end
+    else
+        ShowErrorMessage(mailSendWindow, 'Error', 'Error al enviar el correo.');
 end;
 
+// ---------------------------
 // Evento Cancelar -> vuelve a la ventana principal
+// ---------------------------
 procedure OnCancelClick(widget: PGtkWidget; data: gpointer); cdecl;
 begin
     gtk_widget_destroy(mailSendWindow);
     ShowUserHomeWindow;
 end;
 
+// ---------------------------
 // Mostrar ventana de envío de correo
+// ---------------------------
 procedure ShowUserMailSendWindow;
 var
     grid: PGtkWidget;

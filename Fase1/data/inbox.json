@@ -1,0 +1,20 @@
+{
+  "mails" : [
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "a",
+      "body" : "aaaaaa",
+      "timestamp" : "11-9-25 13:02:12",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "a",
+      "body" : "abc",
+      "timestamp" : "11-9-25 13:03:36",
+      "estado" : "NL"
+    }
+  ]
+}

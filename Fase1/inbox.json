@@ -1,0 +1,76 @@
+{
+  "mails" : [
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:37:05",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:38:05",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:38:43",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "abc",
+      "body" : "hola y la fecha",
+      "timestamp" : "11-9-25 12:38:44",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:39:18",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "abc",
+      "body" : "hola y la fecha",
+      "timestamp" : "11-9-25 12:39:18",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "?",
+      "body" : "hola",
+      "timestamp" : "11-9-25 12:39:19",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:50:04",
+      "estado" : "NL"
+    },
+    {
+      "sender" : "aaa",
+      "receiver" : "rrr",
+      "subject" : "hola",
+      "body" : "jejejje",
+      "timestamp" : "11-9-25 12:50:15",
+      "estado" : "NL"
+    }
+  ]
+}

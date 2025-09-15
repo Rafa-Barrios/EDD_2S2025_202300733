@@ -4,6 +4,9 @@ unit simpleLinkedList;
 
 interface
 
+uses
+    circularLinkedList; // 🔹 Importamos para usar PCNode
+
 type
     PNode = ^TNode;
     TNode = record
@@ -14,6 +17,7 @@ type
         phone: string;
         password: string;
         Next: PNode;
+        contacts: PCNode;   // 🔹 Nueva lista circular de contactos propia de cada usuario
     end;
 
     TUserData = record
@@ -23,6 +27,8 @@ type
         username: string;
         phone: string;
         password: string;
+        // 🔹 Para exportar la lista de contactos si se necesita
+        contacts: PCNode;
     end;
 
 procedure LSL_U_Insert(id, name, email, username, phone, password: string);
@@ -30,10 +36,11 @@ procedure LSL_U_PrintToConsole;
 function  LSL_U_GenerateDot: string;
 function  LSL_U_ValidateCredentials(email, password: string): Boolean;
 function  LSL_U_GetUserByEmail(const email: string): TUserData;
-
-// NUEVAS
 procedure LSL_U_UpdateUserByEmail(const email, newUsername, newPhone: string);
-function  LSL_U_Search(const email: string): PNode; // 🔹 ahora consistente
+function  LSL_U_Search(const email: string): PNode; 
+
+// 🔹 NUEVA: Verifica si ya existe un usuario con ese correo
+function  LSL_UserExists(const email: string): Boolean;
 
 implementation
 
@@ -55,6 +62,7 @@ begin
     NewNode^.phone := Trim(phone);
     NewNode^.password := Trim(password);
     NewNode^.Next := nil;
+    NewNode^.contacts := nil;   // 🔹 Inicializamos la lista circular vacía
 
     if Head = nil then
         Head := NewNode
@@ -86,6 +94,12 @@ begin
         Writeln('Usuario: ', Current^.username);
         Writeln('Teléfono: ', Current^.phone);
         Writeln('Password: ', Current^.password);
+
+        if Current^.contacts = nil then
+            Writeln('  → Sin contactos')
+        else
+            Writeln('  → Tiene contactos registrados');
+
         Writeln('-------------------');
         Current := Current^.Next;
     end;
@@ -181,6 +195,7 @@ begin
     Result.username := '';
     Result.phone := '';
     Result.password := '';
+    Result.contacts := nil; // 🔹 por defecto
 
     if Head = nil then Exit;
 
@@ -195,6 +210,7 @@ begin
             Result.username := Current^.username;
             Result.phone := Current^.phone;
             Result.password := Current^.password;
+            Result.contacts := Current^.contacts;  // 🔹 exportamos contactos del usuario
             Exit;
         end;
         Current := Current^.Next;
@@ -230,6 +246,24 @@ begin
         if Current^.email = Trim(email) then
         begin
             Result := Current;
+            Exit;
+        end;
+        Current := Current^.Next;
+    end;
+end;
+
+// 🔹 NUEVA FUNCIÓN
+function LSL_UserExists(const email: string): Boolean;
+var
+    Current: PNode;
+begin
+    Result := False;
+    Current := Head;
+    while Current <> nil do
+    begin
+        if Current^.email = Trim(email) then
+        begin
+            Result := True;
             Exit;
         end;
         Current := Current^.Next;

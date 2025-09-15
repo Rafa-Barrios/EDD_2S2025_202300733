@@ -1,0 +1,26 @@
+digraph ListaDeListas {
+  rankdir=LR;
+  nodesep=0.6;
+  edge [arrowhead=normal];
+  node [shape=box, style=filled, fillcolor=lightyellow];
+
+  header0 [label="com1", fillcolor=lightblue];
+  header0 -> header1;
+  header0 -> cell0_0;
+  cell0_0 [label="Usuario: lg@edd.com"];
+  cell0_0 -> cell0_1;
+  cell0_1 [label="Usuario: mi@edd.com"];
+  cell0_1 -> cell0_2;
+  cell0_2 [label="Usuario: gkroah-hartman@edd.com"];
+  cell0_2 -> cell0_3;
+  cell0_3 [label="Usuario: bfox@edd.com"];
+{ rank=same; header0 cell0_0 cell0_1 cell0_2 cell0_3 }
+  header1 [label="com2", fillcolor=lightblue];
+  header1 -> header2;
+  header1 -> cell1_0;
+  cell1_0 [label="Usuario: mshuttleworth@edd.com"];
+  cell1_0 -> cell1_1;
+  cell1_1 [label="Usuario: sm@edd.com"];
+{ rank=same; header1 cell1_0 cell1_1 }
+  header2 [label="com3", fillcolor=lightblue];
+}
