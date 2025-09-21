@@ -2,24 +2,10 @@
   "contactos" : [
     {
       "propietario" : "imurdock",
-      "nombre" : "Luis Garcia",
-      "usuario" : "lgarcia",
-      "correo" : "lg@edd.com",
-      "telefono" : "12345678"
-    },
-    {
-      "propietario" : "imurdock",
-      "nombre" : "Marcos Itzep",
-      "usuario" : "mitzep",
-      "correo" : "mi@edd.com",
-      "telefono" : "87654321"
-    },
-    {
-      "propietario" : "imurdock",
-      "nombre" : "Greg Kroah-Hartman",
-      "usuario" : "gkroah-hartman",
-      "correo" : "gkroah-hartman@edd.com",
-      "telefono" : "31628954"
+      "nombre" : "Mitchell Baker",
+      "usuario" : "mbaker",
+      "correo" : "mbaker",
+      "telefono" : "19384756"
     }
   ]
 }

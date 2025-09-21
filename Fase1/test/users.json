@@ -69,7 +69,7 @@
       "nombre" : "Mitchell Baker",
       "usuario" : "mbaker",
       "password" : "mbaker123",
-      "email" : "mbaker@edd.com",
+      "email" : "mbaker",
       "telefono" : "19384756"
     },
     {
@@ -77,16 +77,11 @@
       "nombre" : "Ian Murdock",
       "usuario" : "imurdock",
       "password" : "imurdock123",
-      "email" : "imurdock@edd.com",
+      "email" : "imurdock",
       "telefono" : "41235678"
     }
   ]
 }
 
 
-modificacion
-1ra inicio de sesion con usuario 
-2da enviar correo con usuario
-3ra agregar contacto con usuario 
 
-fecha de hoy 13/9/25 3:55
