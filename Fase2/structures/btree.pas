@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils;
 
-/// Genera un reporte (DOT + PNG) del BTree construido con los favoritos (favorites.json)
+/// Genera un reporte (DOT + PNG) del BTree construido con los favoritos (favorites.json).
 function GenerateBTreeReportFromFavorites(const outputFolder: string): Boolean;
 
 implementation
@@ -30,8 +30,7 @@ var
 
 // ---------------- BTree helpers ----------------
 function CreateBTreeNode(aid: Integer; const alabel: string): PBTreeNode;
-var
-  n: PBTreeNode;
+var n: PBTreeNode;
 begin
   New(n);
   n^.id := aid;
@@ -55,7 +54,7 @@ begin
     node^.right := BTreeInsert(node^.right, aid, alabel)
   else
   begin
-    node^.txt := alabel; // actualizar si existe
+    node^.txt := alabel;
     Result := node;
     Exit;
   end;
@@ -87,7 +86,7 @@ var lab: string;
 begin
   if node = nil then Exit;
   EscapeAndWriteLabelBTree(node^.txt, lab);
-  Writeln(f, Format('  "n%d" [label="%s", shape=box, style=filled, fillcolor=lightblue, fontname="Helvetica", fontsize=10];', [node^.id, lab]));
+  Writeln(f, Format('  "n%d" [label="%s", shape=box, style=filled, fillcolor=lightgoldenrod, fontname="Helvetica", fontsize=10];', [node^.id, lab]));
   if node^.left <> nil then
     Writeln(f, Format('  "n%d" -> "n%d";', [node^.id, node^.left^.id]));
   if node^.right <> nil then
@@ -166,7 +165,10 @@ begin
   dotPath := IncludeTrailingPathDelimiter(outFolder) + 'btree_favorites.dot';
   pngPath := IncludeTrailingPathDelimiter(outFolder) + 'btree_favorites.png';
 
-  jsonData := LoadJSONDataFile('favorites.json');
+  jsonData := LoadJSONDataFile(json_file_favorites);
+  if jsonData = nil then
+    jsonData := LoadJSONDataFile('favorites.json');
+
   if jsonData = nil then
   begin
     GenerateDOTFileBTree(dotPath);
@@ -254,4 +256,3 @@ begin
 end;
 
 end.
-
