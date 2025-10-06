@@ -84,17 +84,17 @@
       "id" : 111,
       "nombre" : "a",
       "email" : "a",
-      "usuario" : "a",
-      "telefono" : "111",
-      "password" : "111"
+      "usuario" : "angel",
+      "telefono" : "",
+      "password" : ""
     },
     {
       "id" : 222,
       "nombre" : "r",
       "email" : "r",
-      "usuario" : "rafa",
-      "telefono" : "",
-      "password" : "111"
+      "usuario" : "r",
+      "telefono" : "222",
+      "password" : ""
     }
   ]
 }

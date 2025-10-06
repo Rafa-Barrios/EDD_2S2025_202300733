@@ -23,6 +23,14 @@
       "body" : "1111",
       "timestamp" : "17-9-25 19:59:33",
       "estado" : "NL"
+    },
+    {
+      "sender" : "r",
+      "receiver" : "a",
+      "subject" : "1",
+      "body" : "hola",
+      "timestamp" : "1-10-25 15:00:02",
+      "estado" : "NL"
     }
   ]
 }

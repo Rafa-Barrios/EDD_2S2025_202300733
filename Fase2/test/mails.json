@@ -1,0 +1,12 @@
+{
+  "mails" : [
+    {
+      "id" : 21,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "correo normaal",
+      "mensaje" : "correo normal preuva",
+      "estado" : "NL"
+    }
+  ]
+}

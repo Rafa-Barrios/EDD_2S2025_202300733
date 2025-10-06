@@ -6,6 +6,13 @@
       "usuario" : "mbaker",
       "correo" : "mbaker",
       "telefono" : "19384756"
+    },
+    {
+      "propietario" : "a",
+      "nombre" : "r",
+      "usuario" : "rafa",
+      "correo" : "r",
+      "telefono" : ""
     }
   ]
 }

@@ -23,6 +23,23 @@
       "body" : "Modificacion de Codigo EDD",
       "timestamp" : "13-9-25 16:04:26",
       "estado" : "NL"
+    },
+    {
+      "sender" : "r",
+      "receiver" : "a",
+      "subject" : "2",
+      "body" : "hola2",
+      "timestamp" : "1-10-25 15:00:42",
+      "estado" : "NL"
+    },
+    {
+      "id" : 13,
+      "sender" : "a",
+      "receiver" : "r",
+      "subject" : "1",
+      "body" : "hola",
+      "timestamp" : "1-10-25 16:03:54",
+      "estado" : "NL"
     }
   ]
 }

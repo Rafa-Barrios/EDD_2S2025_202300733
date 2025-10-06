@@ -1,0 +1,20 @@
+digraph ListaDeListas {
+  rankdir=LR;
+  nodesep=0.6;
+  edge [arrowhead=normal];
+  node [shape=box, style=filled, fillcolor=lightyellow];
+
+  header0 [label="com1", fillcolor=lightblue];
+  header0 -> header1;
+  header0 -> cell0_0;
+  cell0_0 [label="Usuario: a"];
+  cell0_0 -> cell0_1;
+  cell0_1 [label="Usuario: r"];
+{ rank=same; header0 cell0_0 cell0_1 }
+  header1 [label="com2", fillcolor=lightblue];
+  header1 -> header2;
+  header1 -> cell1_0;
+  cell1_0 [label="Usuario: r"];
+{ rank=same; header1 cell1_0 }
+  header2 [label="com3", fillcolor=lightblue];
+}

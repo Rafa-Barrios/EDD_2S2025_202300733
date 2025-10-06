@@ -1,0 +1,12 @@
+{
+  "scheduled" : [
+    {
+      "id" : 1759581559,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "preogra 2",
+      "mensaje" : "para dejar en progra",
+      "dateScheduled" : "7/7/2000"
+    }
+  ]
+}

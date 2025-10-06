@@ -1,0 +1,36 @@
+{
+  "mails" : [
+    {
+      "id" : 2,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "borrador para dejar",
+      "mensaje" : "borrador",
+      "estado" : "NL"
+    },
+    {
+      "id" : 7,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "borrador1",
+      "mensaje" : "hola",
+      "estado" : "NL"
+    },
+    {
+      "id" : 17,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "borrador3",
+      "mensaje" : "jijija",
+      "estado" : "NL"
+    },
+    {
+      "id" : 6,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "avl",
+      "mensaje" : "arbol prueva",
+      "estado" : "NL"
+    }
+  ]
+}

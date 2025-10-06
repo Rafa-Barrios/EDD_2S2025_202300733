@@ -1,0 +1,12 @@
+{
+  "mails" : [
+    {
+      "id" : 10,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "borraor para enviar",
+      "mensaje" : "borrador 2",
+      "estado" : "NL"
+    }
+  ]
+}

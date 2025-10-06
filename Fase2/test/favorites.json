@@ -1,0 +1,60 @@
+{
+  "mails" : [
+    {
+      "id" : 18,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "correo progra",
+      "mensaje" : "preuva",
+      "estado" : "NL"
+    },
+    {
+      "id" : 10,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "fav tree",
+      "mensaje" : "preuva 1",
+      "estado" : "NL"
+    },
+    {
+      "id" : 22,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "  btree",
+      "mensaje" : "preuva2",
+      "estado" : "NL"
+    },
+    {
+      "id" : 11,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "jajaj",
+      "mensaje" : "awfsdfs",
+      "estado" : "NL"
+    },
+    {
+      "id" : 17,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "btree2",
+      "mensaje" : "holaaaaa",
+      "estado" : "NL"
+    },
+    {
+      "id" : 15,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "grafico de btree",
+      "mensaje" : "aaaaa",
+      "estado" : "NL"
+    },
+    {
+      "id" : 7,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "ultimo ",
+      "mensaje" : "holaaa",
+      "estado" : "NL"
+    }
+  ]
+}

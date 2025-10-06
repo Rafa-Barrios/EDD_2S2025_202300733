@@ -1,12 +1,12 @@
 {
   "scheduled" : [
     {
-      "id" : "1757778428",
-      "sender" : "lg@edd.com",
-      "receiver" : "imurdock@edd.com",
-      "subject" : "correo programado",
-      "body" : "hola",
-      "dateScheduled" : "1/1/2011"
+      "id" : "1759349814",
+      "sender" : "a",
+      "receiver" : "r",
+      "subject" : "hola",
+      "body" : "jijiiji",
+      "dateScheduled" : "1/1/2000"
     }
   ]
 }
