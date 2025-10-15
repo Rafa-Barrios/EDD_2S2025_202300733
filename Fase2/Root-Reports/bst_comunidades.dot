@@ -1,0 +1,11 @@
+digraph BST {
+  node [shape=box, style=filled, color=lightblue, fontname="Arial"];
+  rankdir=TB;
+"00007FBC23A77A40" [label="Comunidad: com1\nFecha: 2025-10-04 23:51:46\nMensajes: 3"];
+"00007FBC23A77A40" -> "00007FBC23A77400";
+"00007FBC23A77400" [label="Comunidad: com3\nFecha: 2025-10-07 00:01:54\nMensajes: 2"];
+"00007FBC23A77A40" -> "00007FBC23A77540";
+"00007FBC23A77540" [label="Comunidad: com2\nFecha: 2025-10-05 11:31:00\nMensajes: 3"];
+"00007FBC23A77540" -> "00007FBC23A77340";
+"00007FBC23A77340" [label="Comunidad: com4\nFecha: 2025-10-07 00:02:24\nMensajes: 4"];
+}

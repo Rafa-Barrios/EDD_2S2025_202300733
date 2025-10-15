@@ -2,39 +2,12 @@
   "comunidades" : [
     {
       "Comunidad" : "com1",
-      "mensajes" : 3,
-      "fecha" : "2025-10-04 23:51:46",
+      "mensajes" : 1,
+      "fecha" : "2025-10-11 14:41:08",
       "Mensajes" : [
         {
-          "remitente" : "a",
-          "texto" : "hola primer preuva de mensaje "
-        },
-        {
-          "remitente" : "r",
-          "texto" : "mensajes de r en com1 si existente"
-        },
-        {
-          "remitente" : "a",
-          "texto" : "hola"
-        }
-      ]
-    },
-    {
-      "Comunidad" : "com2",
-      "mensajes" : 3,
-      "fecha" : "2025-10-05 11:31:00",
-      "Mensajes" : [
-        {
-          "remitente" : "a",
-          "texto" : "preua 2 en comunidad no creada"
-        },
-        {
-          "remitente" : "r",
-          "texto" : "mensaje de r en comunidad falsa\n"
-        },
-        {
-          "remitente" : "a",
-          "texto" : "jijijijaaaaaa"
+          "remitente" : "rms@edd.com",
+          "texto" : "hola com1"
         }
       ]
     }

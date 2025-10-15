@@ -1,12 +1,76 @@
 {
   "mails" : [
     {
-      "id" : 21,
-      "remitente" : "a",
-      "destinatario" : "r",
-      "asunto" : "correo normaal",
-      "mensaje" : "correo normal preuva",
-      "estado" : "NL"
+      "id" : 3,
+      "remitente" : "grace@edd.com",
+      "destinatario" : "bill@edd.com",
+      "estado" : "NL",
+      "asunto" : "Conferencia",
+      "mensaje" : "¿Vas a la charla este viernes?"
+    },
+    {
+      "id" : 12,
+      "remitente" : "smejia@edd.com",
+      "destinatario" : "alovelace@edd.com",
+      "estado" : "NL",
+      "asunto" : "Algoritmos",
+      "mensaje" : "¿Ya viste lo nuevo sobre algoritmos?"
+    },
+    {
+      "id" : 5,
+      "remitente" : "satya@edd.com",
+      "destinatario" : "linus@edd.com",
+      "estado" : "NL",
+      "asunto" : "Idea rápida",
+      "mensaje" : "Tengo algo para mejorar Linux, ¿lo ves?"
+    },
+    {
+      "id" : 10,
+      "remitente" : "rms@edd.com",
+      "destinatario" : "bgates@edd.com",
+      "estado" : "NL",
+      "asunto" : "Licencias",
+      "mensaje" : "Podemos charlar sobre licencias un rato."
+    },
+    {
+      "id" : 14,
+      "remitente" : "bgates@edd.com",
+      "destinatario" : "grace@edd.com",
+      "estado" : "NL",
+      "asunto" : "Ideas",
+      "mensaje" : "¿Tienes algo nuevo en mente?"
+    },
+    {
+      "id" : 1,
+      "remitente" : "smejia@edd.com",
+      "destinatario" : "snadella@edd.com",
+      "estado" : "NL",
+      "asunto" : "Reunión",
+      "mensaje" : "¿Nos juntamos esta semana?"
+    },
+    {
+      "id" : 4,
+      "remitente" : "rms@edd.com",
+      "destinatario" : "ghopper@edd.com",
+      "estado" : "NL",
+      "asunto" : "Colaboración",
+      "mensaje" : "¿Te interesa colaborar en algo libre?"
+    },
+    {
+      "id" : 8,
+      "remitente" : "linus@edd.com",
+      "destinatario" : "smejia@edd.com",
+      "estado" : "NL",
+      "asunto" : "Linux",
+      "mensaje" : "¿Te unes a mejorar el kernel?"
+    },
+    {
+      "id" : 11,
+      "remitente" : "alovelace@edd.com",
+      "destinatario" : "snadella@edd.com",
+      "estado" : "NL",
+      "asunto" : "Algo rápido",
+      "mensaje" : "Mira esto cuando tengas 2 mins."
     }
   ]
 }

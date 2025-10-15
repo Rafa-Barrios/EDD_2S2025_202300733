@@ -1,35 +1,27 @@
 {
   "mails" : [
     {
-      "id" : 2,
-      "remitente" : "a",
-      "destinatario" : "r",
-      "asunto" : "borrador para dejar",
-      "mensaje" : "borrador",
-      "estado" : "NL"
-    },
-    {
-      "id" : 7,
-      "remitente" : "a",
-      "destinatario" : "r",
+      "id" : 22,
+      "remitente" : "rms@edd.com",
+      "destinatario" : "ada@edd.com",
       "asunto" : "borrador1",
-      "mensaje" : "hola",
+      "mensaje" : "hola1",
       "estado" : "NL"
     },
     {
-      "id" : 17,
-      "remitente" : "a",
-      "destinatario" : "r",
+      "id" : 24,
+      "remitente" : "rms@edd.com",
+      "destinatario" : "ada@edd.com",
+      "asunto" : "borrador2",
+      "mensaje" : "hola2",
+      "estado" : "NL"
+    },
+    {
+      "id" : 21,
+      "remitente" : "rms@edd.com",
+      "destinatario" : "ada@edd.com",
       "asunto" : "borrador3",
-      "mensaje" : "jijija",
-      "estado" : "NL"
-    },
-    {
-      "id" : 6,
-      "remitente" : "a",
-      "destinatario" : "r",
-      "asunto" : "avl",
-      "mensaje" : "arbol prueva",
+      "mensaje" : "hola3",
       "estado" : "NL"
     }
   ]

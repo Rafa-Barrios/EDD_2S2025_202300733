@@ -30,32 +30,8 @@ digraph ListaEnlazada {
     nodo8 -> nodo9;
     nodo9 [label="{10 \n Ian Murdock \n imurdock \n imurdock \n 41235678}"];
     nodo9 -> nodo10;
-    nodo10 [label="{111 \n a \n a \n a \n 111}"];
+    nodo10 [label="{111 \n a \n angel \n a \n }"];
     nodo10 -> nodo11;
     nodo11 [label="{222 \n r \n r \n r \n 222}"];
-    nodo11 -> nodo12;
-    nodo12 [label="{1 \n Luis Garcia \n calificacion2025 \n lg@edd.com \n }"];
-    nodo12 -> nodo13;
-    nodo13 [label="{2 \n Marcos Itzep \n mitzep \n mi@edd.com \n 87654321}"];
-    nodo13 -> nodo14;
-    nodo14 [label="{3 \n Greg Kroah-Hartman \n gkroah-hartman \n gkroah-hartman@edd.com \n 31628954}"];
-    nodo14 -> nodo15;
-    nodo15 [label="{4 \n Mark Shuttleworth \n mshuttleworth \n mshuttleworth@edd.com \n 76018423}"];
-    nodo15 -> nodo16;
-    nodo16 [label="{5 \n Steven Mejia \n smejia \n sm@edd.com \n 23419875}"];
-    nodo16 -> nodo17;
-    nodo17 [label="{6 \n Brian Fox \n bfox \n bfox@edd.com \n 64578231}"];
-    nodo17 -> nodo18;
-    nodo18 [label="{7 \n Jon Corbet \n jcorbet \n jcorbet@edd.com \n 75849231}"];
-    nodo18 -> nodo19;
-    nodo19 [label="{8 \n Karen Sandler \n ksandler \n ksandler@edd.com \n 89514362}"];
-    nodo19 -> nodo20;
-    nodo20 [label="{9 \n Mitchell Baker \n mbaker \n mbaker \n 19384756}"];
-    nodo20 -> nodo21;
-    nodo21 [label="{10 \n Ian Murdock \n imurdock \n imurdock \n 41235678}"];
-    nodo21 -> nodo22;
-    nodo22 [label="{111 \n a \n a \n a \n 111}"];
-    nodo22 -> nodo23;
-    nodo23 [label="{222 \n r \n r \n r \n 222}"];
   }
 }

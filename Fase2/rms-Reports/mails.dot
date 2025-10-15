@@ -1,0 +1,14 @@
+digraph ListaDoble {
+  rankdir=LR;
+  nodesep=0.5;
+  edge [arrowhead=normal];
+  node [shape=record, style=filled, fillcolor=lightblue];
+
+  nodo0 [label="{ID: 22\lEstado: DR\lRemitente: rms@edd.com\lAsunto: borrador1\lCuerpo: hola1\lHora: 11-10-25 14:35:24\l}"];
+  nodo0 -> nodo1;
+  nodo1 -> nodo0;
+  nodo1 [label="{ID: 24\lEstado: DR\lRemitente: rms@edd.com\lAsunto: borrador2\lCuerpo: hola2\lHora: 11-10-25 14:35:24\l}"];
+  nodo1 -> nodo2;
+  nodo2 -> nodo1;
+  nodo2 [label="{ID: 21\lEstado: DR\lRemitente: rms@edd.com\lAsunto: borrador3\lCuerpo: hola3\lHora: 11-10-25 14:35:24\l}"];
+}

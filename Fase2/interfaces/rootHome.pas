@@ -13,7 +13,7 @@ uses
   login, 
   rootCom, 
   rootComunidad,
-  interfaceTools, jsonTools, variables, filesTools,
+  interfaceTools, jsonTools, variables, filesTools, bstTree,
   simpleLinkedList, linkedListOfLists;
 
 var
@@ -63,7 +63,9 @@ begin
   filesTools.GenerateReports('users', 'Root-Reports', LSL_U_GenerateDot());
   dotComunidades := linkedListOfLists.LL_GenerateDot();
   filesTools.GenerateReports('comunidades', 'Root-Reports', dotComunidades);
-  ShowSuccessMessage(rootWindow, 'Reportes Generados', 'Se generaron los reportes de usuarios y comunidades correctamente.');
+  BST_GenerateReport; // <-- Nuevo reporte BST por cantidad de mensajes
+  ShowSuccessMessage(rootWindow, 'Reportes Generados', 
+    'Se generaron los reportes de usuarios, comunidades y BST correctamente.');
 end;
 
 // --------------------------------------------------------------------

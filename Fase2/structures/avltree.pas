@@ -144,54 +144,48 @@ begin
   Dispose(node);
 end;
 
-// ---------------- DOT generation ----------------
-procedure EscapeAndWriteLabel(const s: string; out outS: string);
-begin
-  outS := StringReplace(s, '\', '\\', [rfReplaceAll]);
-  outS := StringReplace(outS, '"', '\"', [rfReplaceAll]);
-  outS := StringReplace(outS, sLineBreak, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #13#10, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #13, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #10, '\n', [rfReplaceAll]);
-end;
-
-procedure WriteDotNode(var f: Text; node: PAVLNode);
-var lab: string;
+// ---------------- DOT generation (mismo formato que bstTree) ----------------
+procedure GenerateDotLines(node: PAVLNode; dot: TStringList);
 begin
   if node = nil then Exit;
-  EscapeAndWriteLabel(node^.txt, lab);
-  // 👇 Aquí agregamos correctamente el label multilínea (con \n reales)
-  Writeln(f, Format('  "n%d" [label="%s", shape=box, style=filled, fillcolor=lightgoldenrod, fontname="Helvetica", fontsize=10];', [node^.id, lab]));
+
+  // Agregar nodo con salto de línea por campo (igual a bstTree)
+  dot.Add(Format(
+    '  "n%d" [label="%s", shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica", fontsize=10];',
+    [node^.id, node^.txt]
+  ));
+
+  // Agregar conexiones
   if node^.left <> nil then
-    Writeln(f, Format('  "n%d" -> "n%d";', [node^.id, node^.left^.id]));
+    dot.Add(Format('  "n%d" -> "n%d";', [node^.id, node^.left^.id]));
   if node^.right <> nil then
-    Writeln(f, Format('  "n%d" -> "n%d";', [node^.id, node^.right^.id]));
-  WriteDotNode(f, node^.left);
-  WriteDotNode(f, node^.right);
+    dot.Add(Format('  "n%d" -> "n%d";', [node^.id, node^.right^.id]));
+
+  GenerateDotLines(node^.left, dot);
+  GenerateDotLines(node^.right, dot);
 end;
 
 function GenerateDOTFile(const dotPath: string): Boolean;
-var f: Text;
+var
+  dot: TStringList;
 begin
   Result := False;
+  dot := TStringList.Create;
   try
-    AssignFile(f, dotPath);
-    Rewrite(f);
-    try
-      Writeln(f, 'digraph AVL {');
-      Writeln(f, '  rankdir=TB;');
-      Writeln(f, '  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];');
-      if rootAVL = nil then
-        Writeln(f, '  empty [label="(vacio)"];')
-      else
-        WriteDotNode(f, rootAVL);
-      Writeln(f, '}');
-      Result := True;
-    finally
-      CloseFile(f);
-    end;
-  except
-    Result := False;
+    dot.Add('digraph AVL {');
+    dot.Add('  rankdir=TB;');
+    dot.Add('  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];');
+
+    if rootAVL = nil then
+      dot.Add('  empty [label="(vacio)"];')
+    else
+      GenerateDotLines(rootAVL, dot);
+
+    dot.Add('}');
+    dot.SaveToFile(dotPath);
+    Result := True;
+  finally
+    dot.Free;
   end;
 end;
 
@@ -247,8 +241,7 @@ begin
     if jsonData = nil then
     begin
       GenerateDOTFile(dotPath);
-      fOk := RunGraphviz(dotPath, pngPath);
-      Result := fOk;
+      RunGraphviz(dotPath, pngPath);
       FreeAVL(rootAVL);
       Exit;
     end;
@@ -272,13 +265,13 @@ begin
   if (mailsArr = nil) or (mailsArr.Count = 0) then
   begin
     GenerateDOTFile(dotPath);
-    fOk := RunGraphviz(dotPath, pngPath);
-    Result := fOk;
+    RunGraphviz(dotPath, pngPath);
     if Assigned(jsonData) then jsonData.Free;
     FreeAVL(rootAVL);
     Exit;
   end;
 
+  // Construcción de nodos (mismo formato de texto que bstTree)
   for i := 0 to mailsArr.Count - 1 do
   begin
     if not (mailsArr.Items[i] is TJSONObject) then Continue;
@@ -304,33 +297,20 @@ begin
     if Length(mensaje) > 200 then
       mensaje := Copy(mensaje, 1, 197) + '...';
 
-    // 👇 Aquí forzamos los saltos de línea para que se vean uno debajo de otro
-    nodeLabel := Format('ID: %d\nRemitente: %s\nDestinatario: %s\nAsunto: %s\nEstado: %s\nMensaje: %s',
-                        [idInt, remitente, destinatario, asunto, estado, mensaje]);
+    nodeLabel := Format(
+      'ID: %d\nRemitente: %s\nDestinatario: %s\nAsunto: %s\nEstado: %s\nMensaje: %s',
+      [idInt, remitente, destinatario, asunto, estado, mensaje]
+    );
 
     rootAVL := AVLInsert(rootAVL, idInt, nodeLabel);
   end;
 
   fOk := GenerateDOTFile(dotPath);
-  if not fOk then
-  begin
-    FreeAVL(rootAVL);
-    if Assigned(jsonData) then jsonData.Free;
-    Exit;
-  end;
-
-  fOk := RunGraphviz(dotPath, pngPath);
-  if not fOk then
-  begin
-    FreeAVL(rootAVL);
-    if Assigned(jsonData) then jsonData.Free;
-    Exit;
-  end;
+  if fOk then
+    RunGraphviz(dotPath, pngPath);
 
   Result := True;
-
   FreeAVL(rootAVL);
-  rootAVL := nil;
   if Assigned(jsonData) then jsonData.Free;
 end;
 

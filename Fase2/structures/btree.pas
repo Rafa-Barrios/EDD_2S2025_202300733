@@ -7,7 +7,6 @@ interface
 uses
   Classes, SysUtils;
 
-/// Genera un reporte (DOT + PNG) del BTree construido con los favoritos (favorites.json).
 function GenerateBTreeReportFromFavorites(const outputFolder: string): Boolean;
 
 implementation
@@ -15,124 +14,201 @@ implementation
 uses
   fpjson, jsonparser, Process, Unix,
   variables, jsonTools,
+  filesTools, 
   interfaceTools;
 
+const
+  M = 3;
+
 type
-  PBTreeNode = ^TBTreeNode;
-  TBTreeNode = record
-    id: Integer;
-    txt: string;
-    left, right: PBTreeNode;
+  PBNode = ^TBNode;
+  TBNode = record
+    n: Integer;
+    keys: array[1..M*2-1] of Integer;
+    labels: array[1..M*2-1] of string;
+    children: array[1..M*2] of PBNode;
+    leaf: Boolean;
   end;
 
 var
-  rootBTree: PBTreeNode = nil;
+  rootB: PBNode = nil;
 
-// ---------------- BTree helpers ----------------
-function CreateBTreeNode(aid: Integer; const alabel: string): PBTreeNode;
-var n: PBTreeNode;
+function CreateNode(leaf: Boolean): PBNode;
+var
+  i: Integer;
 begin
-  New(n);
-  n^.id := aid;
-  n^.txt := alabel;
-  n^.left := nil;
-  n^.right := nil;
-  Result := n;
+  New(Result);
+  Result^.n := 0;
+  Result^.leaf := leaf;
+  for i := 1 to M*2 do
+    Result^.children[i] := nil;
 end;
 
-function BTreeInsert(node: PBTreeNode; aid: Integer; const alabel: string): PBTreeNode;
+procedure SplitChild(x: PBNode; i: Integer; y: PBNode);
+var
+  z: PBNode;
+  j: Integer;
 begin
-  if node = nil then
+  z := CreateNode(y^.leaf);
+  z^.n := M - 1;
+  for j := 1 to M - 1 do
   begin
-    Result := CreateBTreeNode(aid, alabel);
-    Exit;
+    z^.keys[j] := y^.keys[j + M];
+    z^.labels[j] := y^.labels[j + M];
+  end;
+  if not y^.leaf then
+    for j := 1 to M do
+      z^.children[j] := y^.children[j + M];
+  y^.n := M - 1;
+
+  for j := x^.n + 1 downto i + 1 do
+    x^.children[j + 1] := x^.children[j];
+  x^.children[i + 1] := z;
+
+  for j := x^.n downto i do
+  begin
+    x^.keys[j + 1] := x^.keys[j];
+    x^.labels[j + 1] := x^.labels[j];
   end;
 
-  if aid < node^.id then
-    node^.left := BTreeInsert(node^.left, aid, alabel)
-  else if aid > node^.id then
-    node^.right := BTreeInsert(node^.right, aid, alabel)
+  x^.keys[i] := y^.keys[M];
+  x^.labels[i] := y^.labels[M];
+  Inc(x^.n);
+end;
+
+procedure InsertNonFull(x: PBNode; k: Integer; const lbl: string);
+var
+  i: Integer;
+begin
+  i := x^.n;
+  if x^.leaf then
+  begin
+    while (i >= 1) and (k < x^.keys[i]) do
+    begin
+      x^.keys[i + 1] := x^.keys[i];
+      x^.labels[i + 1] := x^.labels[i];
+      Dec(i);
+    end;
+    x^.keys[i + 1] := k;
+    x^.labels[i + 1] := lbl;
+    Inc(x^.n);
+  end
   else
   begin
-    node^.txt := alabel;
-    Result := node;
+    while (i >= 1) and (k < x^.keys[i]) do
+      Dec(i);
+    Inc(i);
+    if x^.children[i]^.n = 2 * M - 1 then
+    begin
+      SplitChild(x, i, x^.children[i]);
+      if k > x^.keys[i] then
+        Inc(i);
+    end;
+    InsertNonFull(x^.children[i], k, lbl);
+  end;
+end;
+
+procedure BTreeInsert(k: Integer; const lbl: string);
+var
+  r, s: PBNode;
+begin
+  if rootB = nil then
+  begin
+    rootB := CreateNode(True);
+    rootB^.keys[1] := k;
+    rootB^.labels[1] := lbl;
+    rootB^.n := 1;
     Exit;
   end;
 
-  Result := node;
+  r := rootB;
+  if r^.n = 2 * M - 1 then
+  begin
+    s := CreateNode(False);
+    rootB := s;
+    s^.children[1] := r;
+    SplitChild(s, 1, r);
+    InsertNonFull(s, k, lbl);
+  end
+  else
+    InsertNonFull(r, k, lbl);
 end;
 
-procedure FreeBTree(node: PBTreeNode);
+procedure FreeBTree(node: PBNode);
+var
+  i: Integer;
 begin
   if node = nil then Exit;
-  FreeBTree(node^.left);
-  FreeBTree(node^.right);
+  if not node^.leaf then
+    for i := 1 to node^.n + 1 do
+      FreeBTree(node^.children[i]);
   Dispose(node);
 end;
 
-// ---------------- DOT generation ----------------
-procedure EscapeAndWriteLabelBTree(const s: string; out outS: string);
-begin
-  outS := StringReplace(s, '\', '\\', [rfReplaceAll]);
-  outS := StringReplace(outS, '"', '\"', [rfReplaceAll]);
-  outS := StringReplace(outS, sLineBreak, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #13#10, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #13, '\n', [rfReplaceAll]);
-  outS := StringReplace(outS, #10, '\n', [rfReplaceAll]);
-end;
-
-procedure WriteDotNodeBTree(var f: Text; node: PBTreeNode);
-var lab: string;
+// ---------------- DOT con TStringList (como avltree) ----------------
+procedure WriteDotNode(dot: TStringList; node: PBNode; parentID: string; var counter: Integer);
+var
+  i: Integer;
+  nodeID, cleanLabel: string;
 begin
   if node = nil then Exit;
-  EscapeAndWriteLabelBTree(node^.txt, lab);
-  Writeln(f, Format('  "n%d" [label="%s", shape=box, style=filled, fillcolor=lightgoldenrod, fontname="Helvetica", fontsize=10];', [node^.id, lab]));
-  if node^.left <> nil then
-    Writeln(f, Format('  "n%d" -> "n%d";', [node^.id, node^.left^.id]));
-  if node^.right <> nil then
-    Writeln(f, Format('  "n%d" -> "n%d";', [node^.id, node^.right^.id]));
-  WriteDotNodeBTree(f, node^.left);
-  WriteDotNodeBTree(f, node^.right);
+  Inc(counter);
+  nodeID := 'node' + IntToStr(counter);
+
+  cleanLabel := '';
+  for i := 1 to node^.n do
+  begin
+    cleanLabel += StringReplace(node^.labels[i], '"', '\"', [rfReplaceAll]);
+    if i < node^.n then
+      cleanLabel += '\n----------------\n';
+  end;
+
+  dot.Add(Format('  %s [label="%s", shape=box, style=filled, fillcolor=lightgoldenrod, fontsize=10];',
+                 [nodeID, cleanLabel]));
+
+  if parentID <> '' then
+    dot.Add(Format('  %s -> %s;', [parentID, nodeID]));
+
+  if not node^.leaf then
+    for i := 1 to node^.n + 1 do
+      WriteDotNode(dot, node^.children[i], nodeID, counter);
 end;
 
-function GenerateDOTFileBTree(const dotPath: string): Boolean;
-var f: Text;
+function GenerateDOTFile(const dotPath: string): Boolean;
+var
+  dot: TStringList;
+  counter: Integer;
 begin
   Result := False;
+  dot := TStringList.Create;
   try
-    AssignFile(f, dotPath);
-    Rewrite(f);
-    try
-      Writeln(f, 'digraph BTree {');
-      Writeln(f, '  rankdir=TB;');
-      Writeln(f, '  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];');
-      if rootBTree = nil then
-        Writeln(f, '  empty [label="(vacio)"];')
-      else
-        WriteDotNodeBTree(f, rootBTree);
-      Writeln(f, '}');
-      Result := True;
-    finally
-      CloseFile(f);
-    end;
-  except
-    Result := False;
+    dot.Add('digraph BTree {');
+    dot.Add('  rankdir=TB;');
+    dot.Add('  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];');
+
+    counter := 0;
+    if rootB = nil then
+      dot.Add('  empty [label="(vacio)"];')
+    else
+      WriteDotNode(dot, rootB, '', counter);
+
+    dot.Add('}');
+    dot.SaveToFile(dotPath);
+    Result := True;
+  finally
+    dot.Free;
   end;
 end;
 
-// ---------------- Run Graphviz ----------------
-function RunGraphvizBTree(const dotPath, pngPath: string): Boolean;
+function RunGraphviz(const dotPath, pngPath: string): Boolean;
 var
   cmd: string;
-  exitCode: LongInt;
 begin
-  Result := False;
   cmd := Format('dot -Tpng "%s" -o "%s"', [dotPath, pngPath]);
-  exitCode := fpsystem(cmd);
-  Result := (exitCode = 0);
+  Result := (fpsystem(cmd) = 0);
 end;
 
-// ---------------- Main: construir BTree desde favorites.json ----------------
+// ---------------- Genera reporte desde favorites.json ----------------
 function GenerateBTreeReportFromFavorites(const outputFolder: string): Boolean;
 var
   outFolder, dotPath, pngPath: string;
@@ -142,39 +218,30 @@ var
   i: Integer;
   itemObj: TJSONObject;
   idInt: Integer;
-  sId: string;
   remitente, destinatario, asunto, mensaje, estado: string;
   nodeLabel: string;
   fOk: Boolean;
 begin
   Result := False;
-  rootBTree := nil;
+  rootB := nil;
 
   if Trim(outputFolder) = '' then
     outFolder := Trim(current_user_username) + '-Reports'
   else
     outFolder := outputFolder;
 
-  try
-    if not DirectoryExists(outFolder) then
-      ForceDirectories(outFolder);
-  except
-    Exit;
-  end;
+  if not DirectoryExists(outFolder) then
+    ForceDirectories(outFolder);
 
   dotPath := IncludeTrailingPathDelimiter(outFolder) + 'btree_favorites.dot';
   pngPath := IncludeTrailingPathDelimiter(outFolder) + 'btree_favorites.png';
 
   jsonData := LoadJSONDataFile(json_file_favorites);
   if jsonData = nil then
-    jsonData := LoadJSONDataFile('favorites.json');
-
-  if jsonData = nil then
   begin
-    GenerateDOTFileBTree(dotPath);
-    fOk := RunGraphvizBTree(dotPath, pngPath);
+    GenerateDOTFile(dotPath);
+    fOk := RunGraphviz(dotPath, pngPath);
     Result := fOk;
-    FreeBTree(rootBTree);
     Exit;
   end;
 
@@ -183,6 +250,8 @@ begin
     jsonObj := TJSONObject(jsonData);
     if jsonObj.IndexOfName('mails') <> -1 then
       mailsArr := jsonObj.Arrays['mails']
+    else if jsonObj.IndexOfName('sent') <> -1 then
+      mailsArr := jsonObj.Arrays['sent']
     else
       mailsArr := nil;
   end
@@ -193,11 +262,9 @@ begin
 
   if (mailsArr = nil) or (mailsArr.Count = 0) then
   begin
-    GenerateDOTFileBTree(dotPath);
-    fOk := RunGraphvizBTree(dotPath, pngPath);
+    GenerateDOTFile(dotPath);
+    fOk := RunGraphviz(dotPath, pngPath);
     Result := fOk;
-    if Assigned(jsonData) then jsonData.Free;
-    FreeBTree(rootBTree);
     Exit;
   end;
 
@@ -206,17 +273,7 @@ begin
     if not (mailsArr.Items[i] is TJSONObject) then Continue;
     itemObj := mailsArr.Objects[i];
 
-    idInt := 0;
-    if itemObj.IndexOfName('id') <> -1 then
-    begin
-      try
-        idInt := itemObj.Integers['id'];
-      except
-        sId := itemObj.Get('id', '');
-        idInt := StrToIntDef(sId, 0);
-      end;
-    end;
-
+    idInt := itemObj.Get('id', i + 1);
     remitente := itemObj.Get('remitente', itemObj.Get('sender', ''));
     destinatario := itemObj.Get('destinatario', itemObj.Get('receiver', ''));
     asunto := itemObj.Get('asunto', itemObj.Get('subject', ''));
@@ -226,32 +283,19 @@ begin
     if Length(mensaje) > 200 then
       mensaje := Copy(mensaje, 1, 197) + '...';
 
-    nodeLabel := Format('ID: %d\nRemitente: %s\nDestinatario: %s\nAsunto: %s\nEstado: %s\nMensaje: %s',
+    nodeLabel := Format('ID: %d\nRemitente: %s\nDestinatario: %s\nAsunto: %s\nEstado: %s\nMensaje:\n%s',
                         [idInt, remitente, destinatario, asunto, estado, mensaje]);
 
-    rootBTree := BTreeInsert(rootBTree, idInt, nodeLabel);
+    BTreeInsert(idInt, nodeLabel);
   end;
 
-  fOk := GenerateDOTFileBTree(dotPath);
-  if not fOk then
-  begin
-    FreeBTree(rootBTree);
-    if Assigned(jsonData) then jsonData.Free;
-    Exit;
-  end;
+  fOk := GenerateDOTFile(dotPath);
+  if fOk then
+    fOk := RunGraphviz(dotPath, pngPath);
 
-  fOk := RunGraphvizBTree(dotPath, pngPath);
-  if not fOk then
-  begin
-    FreeBTree(rootBTree);
-    if Assigned(jsonData) then jsonData.Free;
-    Exit;
-  end;
-
-  Result := True;
-
-  FreeBTree(rootBTree);
-  rootBTree := nil;
+  Result := fOk;
+  FreeBTree(rootB);
+  rootB := nil;
   if Assigned(jsonData) then jsonData.Free;
 end;
 
