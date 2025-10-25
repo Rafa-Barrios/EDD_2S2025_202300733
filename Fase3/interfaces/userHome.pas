@@ -134,6 +134,9 @@ end;
 
 procedure OnLogoutClick(widget: PGtkWidget; data: gpointer); cdecl;
 begin
+    // 🔹 Registrar salida del usuario
+    RegisterLogout(current_user_username);
+    
     DL_ClearList;
     gtk_widget_destroy(userWindow);
     ShowLoginWindow;
@@ -157,6 +160,8 @@ begin
     welcomeText := 'Bienvenido: ' + current_user_username;
     lblWelcome := gtk_label_new(PChar(welcomeText));
     gtk_table_attach_defaults(GTK_TABLE(grid), lblWelcome, 0, 1, 0, 1);
+    // 🔹 Registrar la entrada del usuario en el log
+    RegisterLoginEntry(current_user_username);
 
     // Botones
     btnInbox := gtk_button_new_with_label('Bandeja de entrada');

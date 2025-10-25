@@ -39,6 +39,9 @@ function RemoveDraftFromJson(const filePath: string; mailID: Integer): Boolean;
 procedure SaveCommunityMessage(const communityName, messageText, senderEmail: string);
 function LoadJSONDataFile(const FileName: string): TJSONData;
 
+procedure RegisterLoginEntry(const username: string);
+procedure RegisterLogout(const username: string);
+
 implementation
 
 // -----------------------------------------------------------------------------
@@ -1012,6 +1015,91 @@ begin
   until not idUsed;
 
   Result := candidate;
+end;
+
+// -----------------------------------------------------------------------------
+// --------------------------- CONTROL DE LOGUEO ------------------------------
+// -----------------------------------------------------------------------------
+
+procedure RegisterLoginEntry(const username: string);
+  var
+    jsonArray: TJSONArray;
+    jsonItem: TJSONObject;
+    jsonString: TStringList;
+    nowStr: string;
+    jsonData: TJSONData;
+  begin
+    nowStr := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+
+    // Si el archivo no existe, crearlo vacío con []
+    if not FileExists(json_file_login_control) then
+    begin
+      jsonString := TStringList.Create;
+      try
+        jsonString.Text := '[]';
+        jsonString.SaveToFile(json_file_login_control);
+      finally
+        jsonString.Free;
+      end;
+    end;
+
+    jsonData := GetJSON(ReadFileToString(json_file_login_control));
+    jsonArray := TJSONArray(jsonData);
+
+    // Crear nueva entrada
+    jsonItem := TJSONObject.Create;
+    jsonItem.Add('usuario', username);
+    jsonItem.Add('entrada', nowStr);
+    jsonItem.Add('salida', '');
+
+    jsonArray.Add(jsonItem);
+
+    // Guardar cambios
+    jsonString := TStringList.Create;
+    try
+      jsonString.Text := jsonArray.FormatJSON([]);
+      jsonString.SaveToFile(json_file_login_control);
+    finally
+      jsonString.Free;
+      jsonArray.Free;
+    end;
+  end;
+
+procedure RegisterLogout(const username: string);
+  var
+    jsonData: TJSONData;
+    jsonArray: TJSONArray;
+    item: TJSONObject;
+    jsonString: TStringList;
+    i: Integer;
+    nowStr: string;
+  begin
+    if not FileExists(json_file_login_control) then Exit;
+
+    jsonData := GetJSON(ReadFileToString(json_file_login_control));
+    jsonArray := TJSONArray(jsonData);
+
+    nowStr := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+
+    // Buscar último registro del usuario sin salida
+    for i := jsonArray.Count - 1 downto 0 do
+    begin
+      item := jsonArray.Objects[i];
+      if SameText(item.Strings['usuario'], username) and (Trim(item.Strings['salida']) = '') then
+      begin
+        item.Strings['salida'] := nowStr;
+        Break;
+      end;
+    end;
+
+    jsonString := TStringList.Create;
+    try
+      jsonString.Text := jsonArray.FormatJSON([]);
+      jsonString.SaveToFile(json_file_login_control);
+    finally
+      jsonString.Free;
+      jsonArray.Free;
+    end;
 end;
 
 end.

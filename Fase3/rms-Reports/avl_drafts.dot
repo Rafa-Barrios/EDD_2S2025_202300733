@@ -1,9 +1,0 @@
-digraph AVL {
-  rankdir=TB;
-  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];
-  "n22" [label="ID: 22\nRemitente: rms@edd.com\nDestinatario: ada@edd.com\nAsunto: borrador1\nEstado: NL\nMensaje: hola1", shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica", fontsize=10];
-  "n22" -> "n21";
-  "n22" -> "n24";
-  "n21" [label="ID: 21\nRemitente: rms@edd.com\nDestinatario: ada@edd.com\nAsunto: borrador3\nEstado: NL\nMensaje: hola3", shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica", fontsize=10];
-  "n24" [label="ID: 24\nRemitente: rms@edd.com\nDestinatario: ada@edd.com\nAsunto: borrador2\nEstado: NL\nMensaje: hola2", shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica", fontsize=10];
-}

@@ -26,28 +26,8 @@ digraph ListaEnlazada {
     nodo6 -> nodo7;
     nodo7 [label="{8 \n Alan Turing \n aturing \n alan@edd.com \n 30255667}"];
     nodo7 -> nodo8;
-    nodo8 [label="{9 \n Ada Lovelace \n alovelace \n ada@edd.com \n 30277889}"];
+    nodo8 [label="{9 \n Ada Lovelace \n alovelace \n alovelace \n 30277889}"];
     nodo8 -> nodo9;
     nodo9 [label="{10 \n Richard Stallman \n rms \n rms@edd.com \n 30399000}"];
-    nodo9 -> nodo10;
-    nodo10 [label="{1 \n Luis Garcia \n auxluis \n aux-luis@edd.com \n 12345678}"];
-    nodo10 -> nodo11;
-    nodo11 [label="{2 \n Marcos Itzep \n auxmarcos \n aux-marcosg@edd.com \n 87654321}"];
-    nodo11 -> nodo12;
-    nodo12 [label="{3 \n Steven Mejia \n smejia \n smejia@edd.com \n 1234123}"];
-    nodo12 -> nodo13;
-    nodo13 [label="{4 \n Linus Torvalds \n linus \n linus@edd.com \n 30012345}"];
-    nodo13 -> nodo14;
-    nodo14 [label="{5 \n Bill Gates \n bgates \n bill@edd.com \n 30054321}"];
-    nodo14 -> nodo15;
-    nodo15 [label="{6 \n Satya Nadella \n snadella \n satya@edd.com \n 30111222}"];
-    nodo15 -> nodo16;
-    nodo16 [label="{7 \n Grace Hopper \n ghopper \n grace@edd.com \n 30133445}"];
-    nodo16 -> nodo17;
-    nodo17 [label="{8 \n Alan Turing \n aturing \n alan@edd.com \n 30255667}"];
-    nodo17 -> nodo18;
-    nodo18 [label="{9 \n Ada Lovelace \n alovelace \n ada@edd.com \n 30277889}"];
-    nodo18 -> nodo19;
-    nodo19 [label="{10 \n Richard Stallman \n rms \n rms@edd.com \n 30399000}"];
   }
 }

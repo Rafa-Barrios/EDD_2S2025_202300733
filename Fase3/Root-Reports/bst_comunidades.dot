@@ -1,5 +1,5 @@
 digraph BST {
   node [shape=box, style=filled, color=lightblue, fontname="Arial"];
   rankdir=TB;
-"00007F8B5389CC80" [label="Comunidad: com1\nFecha: 2025-10-11 14:41:08\nMensajes: 1"];
+"00007FB0FE6F0BC0" [label="Comunidad: com1\nFecha: 2025-10-11 14:41:08\nMensajes: 1"];
 }
