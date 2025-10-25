@@ -1,0 +1,12 @@
+{
+  "mails" : [
+    {
+      "id" : 7,
+      "remitente" : "linus@edd.com",
+      "destinatario" : "rms@edd.com",
+      "asunto" : "Proyecto GNU",
+      "mensaje" : "¿Te animás a armar algo en GNU?",
+      "estado" : "NL"
+    }
+  ]
+}

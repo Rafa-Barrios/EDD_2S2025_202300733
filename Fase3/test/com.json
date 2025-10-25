@@ -1,0 +1,15 @@
+{
+  "comunidades" : [
+    {
+      "Comunidad" : "com1",
+      "mensajes" : 1,
+      "fecha" : "2025-10-11 14:41:08",
+      "Mensajes" : [
+        {
+          "remitente" : "rms@edd.com",
+          "texto" : "hola com1"
+        }
+      ]
+    }
+  ]
+}

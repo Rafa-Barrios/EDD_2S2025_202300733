@@ -1,0 +1,5 @@
+digraph BTree {
+  rankdir=TB;
+  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];
+  node1 [label="ID: 7\nRemitente: linus@edd.com\nDestinatario: rms@edd.com\nAsunto: Proyecto GNU\nEstado: NL\nMensaje:\n?Te anim?s a armar algo en GNU?", shape=box, style=filled, fillcolor=lightgoldenrod, fontsize=10];
+}
