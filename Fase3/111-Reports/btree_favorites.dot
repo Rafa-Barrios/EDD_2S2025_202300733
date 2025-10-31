@@ -1,0 +1,5 @@
+digraph BTree {
+  rankdir=TB;
+  node [shape=box, style=filled, fillcolor=lightyellow, fontname="Helvetica"];
+  node1 [label="ID: 6\nRemitente: r\nDestinatario: a\nAsunto: favoritos\nEstado: NL\nMensaje:\nprivados 1\n----------------\nID: 7\nRemitente: linus@edd.com\nDestinatario: rms@edd.com\nAsunto: Proyecto GNU\nEstado: NL\nMensaje:\n?Te anim?s a armar algo en GNU?\n----------------\nID: 18\nRemitente: r\nDestinatario: a\nAsunto: hola 3\nEstado: NL\nMensaje:\nprovando borrar en borrador", shape=box, style=filled, fillcolor=lightgoldenrod, fontsize=10];
+}

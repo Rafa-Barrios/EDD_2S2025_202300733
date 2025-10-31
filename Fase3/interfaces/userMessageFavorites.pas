@@ -32,21 +32,27 @@ end;
 // Evento eliminar mensaje (favoritos → papelera)
 // ------------------------------
 procedure OnDeleteClick(widget: PGtkWidget; data: gpointer); cdecl;
+var
+  success: Boolean;
+  mailID: Integer;
 begin
   if currentMail <> nil then
   begin
-    // ✅ Movemos el correo desde favorites.json hacia trash.json
-    if MoveMailToTrash(variables.json_file_favorites, variables.json_file_trash,
-                        current_user_email, currentMail^.subject) then
-    begin
-      Writeln('Correo movido de favoritos a la papelera correctamente.');
-    end
-    else
-    begin
-      Writeln('Error al mover el correo de favoritos a la papelera.');
-    end;
+    // ✅ Convertir el ID a entero
+    mailID := StrToIntDef(currentMail^.id, 0);
 
-    // cerramos ventana y recargamos favoritos
+    // ✅ Mover el correo desde favorites.json hacia trash.json usando el ID
+    success := MoveMailToTrash(variables.json_file_favorites,
+                               variables.json_file_trash,
+                               current_user_email,
+                               mailID);
+
+    if success then
+      Writeln('Correo movido de favoritos a la papelera correctamente.')
+    else
+      Writeln('Error al mover el correo de favoritos a la papelera.');
+
+    // Cerrar ventana y recargar favoritos
     gtk_widget_destroy(msgWindow);
     ReloadFavorites;
   end;
@@ -137,7 +143,7 @@ begin
   gtk_text_buffer_set_text(buffer, PChar(mail^.body), -1);
 
   // =============================
-  // Botones (Cerrar, Eliminar) -> solo 2 botones
+  // Botones (Cerrar, Eliminar)
   // =============================
   hboxButtons := gtk_hbox_new(True, 10);
 

@@ -1,0 +1,44 @@
+{
+  "mails" : [
+    {
+      "id" : 12,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "descaraga",
+      "mensaje" : "preuva de descarga",
+      "estado" : "NL"
+    },
+    {
+      "id" : 24,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "hola",
+      "mensaje" : "jejeje",
+      "estado" : "NL"
+    },
+    {
+      "id" : 5,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "hola",
+      "mensaje" : "prueva de borrador ",
+      "estado" : "NL"
+    },
+    {
+      "id" : 12,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "hola 2",
+      "mensaje" : "preuva de borrador 2",
+      "estado" : "NL"
+    },
+    {
+      "id" : 10,
+      "remitente" : "r",
+      "destinatario" : "hola 4",
+      "asunto" : "pru",
+      "mensaje" : "borrar en borrador",
+      "estado" : "NL"
+    }
+  ]
+}

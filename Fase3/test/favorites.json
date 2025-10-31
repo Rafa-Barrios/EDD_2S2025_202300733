@@ -5,7 +5,23 @@
       "remitente" : "linus@edd.com",
       "destinatario" : "rms@edd.com",
       "asunto" : "Proyecto GNU",
-      "mensaje" : "¿Te animás a armar algo en GNU?",
+      "mensaje" : "?Te anim?s a armar algo en GNU?",
+      "estado" : "NL"
+    },
+    {
+      "id" : 18,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "hola 3",
+      "mensaje" : "provando borrar en borrador",
+      "estado" : "NL"
+    },
+    {
+      "id" : 6,
+      "remitente" : "r",
+      "destinatario" : "a",
+      "asunto" : "favoritos",
+      "mensaje" : "privados 1",
       "estado" : "NL"
     }
   ]

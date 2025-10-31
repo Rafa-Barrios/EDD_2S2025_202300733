@@ -30,7 +30,7 @@ var
     json_file_drafts: string      = '/home/rafa/Documents/EDD_2S2025_202300733/Fase3/test/drafts.json';  // <-- nueva variable
     json_file_communities: string = '/home/rafa/Documents/EDD_2S2025_202300733/Fase3/test/com.json';  // <-- nueva variable
     json_file_login_control: string = '/home/rafa/Documents/EDD_2S2025_202300733/Fase3/test/loginControl.json';
-
+    test_folder: string = '/home/rafa/Documents/EDD_2S2025_202300733/Fase3/test/';
 
     // Credential root user
     root_user_email: string    = '1';

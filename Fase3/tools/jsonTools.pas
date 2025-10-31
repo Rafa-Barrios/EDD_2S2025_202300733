@@ -22,7 +22,7 @@ function RemoveContactFromJson(const filePath, propietario, email: string): Bool
 function AddMailToJson(const filePath, senderEmail, receiverEmail, subject, body: string; mailID: Integer): Boolean;
 procedure LoadInboxFromJson(const filePath, userEmail: string);
 procedure LoadTrashFromJson(const filePath, userEmail: string);
-function MoveMailToTrash(const inboxPath, trashPath, userEmail, subject: string): Boolean;
+function MoveMailToTrash(const inboxPath, trashPath, userEmail: string; mailID: LongInt): Boolean;
 
 function SaveScheduledToJson(const filePath, userEmail: string): Boolean;
 function LoadScheduledFromJson(const filePath, userEmail: string): Boolean;
@@ -511,15 +511,13 @@ begin
   end;
 end;
 
-function MoveMailToTrash(const inboxPath, trashPath, userEmail, subject: string): Boolean;
+function MoveMailToTrash(const inboxPath, trashPath, userEmail: string; mailID: LongInt): Boolean;
 var
   jsonData, trashData: TJSONData;
   jsonObject, trashObject, mailObj, newMail: TJSONObject;
   mailsArray, trashArray: TJSONArray;
   i: Integer;
   content, trashContent, jsonString, trashString: TStringList;
-  destinatario, asunto: string;
-  idInt: QWord;
 begin
   Result := False;
   if not FileExists(inboxPath) then Exit;
@@ -536,21 +534,20 @@ begin
     for i := mailsArray.Count - 1 downto 0 do
     begin
       mailObj := mailsArray.Objects[i];
-      destinatario := mailObj.Get('destinatario', '');
-      asunto := mailObj.Get('asunto', '');
-      if SameText(destinatario, userEmail) and SameText(asunto, subject) then
-      begin
-        idInt := mailObj.Integers['id'];
 
+      // Comparamos por ID
+      if mailObj.Get('id', 0) = mailID then
+      begin
         // Copiar correo a trash.json
         newMail := TJSONObject.Create;
-        newMail.Add('id', idInt);
+        newMail.Add('id', mailObj.Get('id', 0));
         newMail.Add('remitente', mailObj.Get('remitente', ''));
         newMail.Add('destinatario', mailObj.Get('destinatario', ''));
         newMail.Add('asunto', mailObj.Get('asunto', ''));
         newMail.Add('mensaje', mailObj.Get('mensaje', ''));
-        newMail.Add('estado', mailObj.Get('estado', 'NL'));
+        newMail.Add('estado', mailObj.Get('estado', 'L'));
 
+        // Cargar papelera y agregar
         trashContent := TStringList.Create;
         try
           trashContent.LoadFromFile(trashPath);
@@ -559,6 +556,7 @@ begin
           trashArray := trashObject.Arrays['mails'];
           trashArray.Add(newMail);
 
+          // Guardar papelera actualizada
           trashString := TStringList.Create;
           try
             trashString.Text := trashObject.FormatJSON();
@@ -571,7 +569,7 @@ begin
           if Assigned(trashData) then trashData.Free;
         end;
 
-        // Eliminar correo de inbox.json
+        // Eliminar correo original del archivo de origen
         mailsArray.Delete(i);
 
         jsonString := TStringList.Create;
@@ -583,6 +581,7 @@ begin
           jsonString.Free;
         end;
 
+        Break; // importante: ya encontramos el correo
       end;
     end;
   finally
@@ -590,6 +589,7 @@ begin
     if Assigned(jsonData) then jsonData.Free;
   end;
 end;
+
 
 // -----------------------------------------------------------------------------
 // ------------------- CORREOS PROGRAMADOS (COLA) -----------------------------

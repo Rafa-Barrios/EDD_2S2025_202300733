@@ -7,7 +7,7 @@ interface
 uses
   gtk2, glib2, SysUtils,
   variables, doubleLinkedList, jsonTools, interfaceTools, userDraft,
-  fpjson, jsonparser;  // <-- agregamos esto
+  fpjson, jsonparser;
 
 procedure ShowUserMessageDraft(mailID: string; remitente, destinatario, asunto, cuerpo: string);
 
@@ -15,7 +15,7 @@ implementation
 
 var
   msgWindow: PGtkWidget;
-  btnClose, btnSend: PGtkWidget;
+  btnClose, btnSend, btnDelete: PGtkWidget; // ✅ botón "Eliminar"
   txtTo, txtSubject: PGtkWidget;
   txtBody: PGtkWidget;
   buffer: PGtkTextBuffer;
@@ -53,8 +53,8 @@ begin
   gtk_text_buffer_get_end_iter(buffer, @end_iter);
   newBody := gtk_text_buffer_get_text(buffer, @start_iter, @end_iter, True);
 
-  // Leer destinatario desde draft.json
-  destinatario := currentDestinatario; // respaldo
+  // Leer destinatario desde drafts.json
+  destinatario := currentDestinatario;
   if FileExists(json_file_drafts) then
   begin
     jsonData := GetJSON(ReadFileToString(json_file_drafts));
@@ -72,7 +72,7 @@ begin
     end;
   end;
 
-  // Guardar en mails.json
+  // Guardar en mails.json y eliminar de drafts.json
   if (destinatario <> '') and
      AddMailToJson(json_file_mails, current_user_email, destinatario,
                    newSubject, newBody, StrToIntDef(currentID, 0)) then
@@ -84,6 +84,33 @@ begin
   ReloadDrafts;
 
   if Assigned(jsonData) then jsonData.Free;
+end;
+
+// ------------------------------
+// ✅ Evento eliminar borrador (versión corregida)
+// ------------------------------
+procedure OnDeleteClick(widget: PGtkWidget; data: gpointer); cdecl;
+var
+  success: Boolean;
+  draftID: Integer;
+begin
+  draftID := StrToIntDef(currentID, -1);
+
+  if draftID <> -1 then
+  begin
+    success := MoveMailToTrash(json_file_drafts, json_file_trash,
+                               current_user_email, draftID);
+
+    if success then
+      Writeln('Borrador movido a la papelera correctamente.')
+    else
+      Writeln('Error al mover el borrador a la papelera.');
+  end
+  else
+    Writeln('Error: ID de borrador inválido.');
+
+  gtk_widget_destroy(msgWindow);
+  ReloadDrafts;
 end;
 
 // ------------------------------
@@ -154,6 +181,11 @@ begin
   btnSend := gtk_button_new_with_label('Enviar');
   g_signal_connect(btnSend, 'clicked', G_CALLBACK(@OnSendClick), nil);
   gtk_box_pack_start(GTK_BOX(hboxButtons), btnSend, True, True, 0);
+
+  // ✅ Nuevo botón "Eliminar"
+  btnDelete := gtk_button_new_with_label('Eliminar');
+  g_signal_connect(btnDelete, 'clicked', G_CALLBACK(@OnDeleteClick), nil);
+  gtk_box_pack_start(GTK_BOX(hboxButtons), btnDelete, True, True, 0);
 
   gtk_box_pack_start(GTK_BOX(vbox), hboxButtons, False, False, 0);
 

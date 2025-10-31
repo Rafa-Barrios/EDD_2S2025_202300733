@@ -23,6 +23,22 @@
       "asunto" : "borrador3",
       "mensaje" : "hola3",
       "estado" : "NL"
+    },
+    {
+      "id" : 7,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "hola",
+      "mensaje" : "jejeje",
+      "estado" : "NL"
+    },
+    {
+      "id" : 1,
+      "remitente" : "aux-luis@edd.com",
+      "destinatario" : "aux-marcosg@edd.com",
+      "asunto" : "borrador ",
+      "mensaje" : "Fase3",
+      "estado" : "NL"
     }
   ]
 }

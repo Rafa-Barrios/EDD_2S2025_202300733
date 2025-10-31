@@ -6,7 +6,7 @@
       "destinatario" : "bill@edd.com",
       "estado" : "NL",
       "asunto" : "Conferencia",
-      "mensaje" : "¿Vas a la charla este viernes?"
+      "mensaje" : "?Vas a la charla este viernes?"
     },
     {
       "id" : 12,
@@ -14,15 +14,15 @@
       "destinatario" : "alovelace@edd.com",
       "estado" : "NL",
       "asunto" : "Algoritmos",
-      "mensaje" : "¿Ya viste lo nuevo sobre algoritmos?"
+      "mensaje" : "?Ya viste lo nuevo sobre algoritmos?"
     },
     {
       "id" : 5,
       "remitente" : "satya@edd.com",
       "destinatario" : "linus@edd.com",
       "estado" : "NL",
-      "asunto" : "Idea rápida",
-      "mensaje" : "Tengo algo para mejorar Linux, ¿lo ves?"
+      "asunto" : "Idea r?pida",
+      "mensaje" : "Tengo algo para mejorar Linux, ?lo ves?"
     },
     {
       "id" : 10,
@@ -38,23 +38,23 @@
       "destinatario" : "grace@edd.com",
       "estado" : "NL",
       "asunto" : "Ideas",
-      "mensaje" : "¿Tienes algo nuevo en mente?"
+      "mensaje" : "?Tienes algo nuevo en mente?"
     },
     {
       "id" : 1,
       "remitente" : "smejia@edd.com",
       "destinatario" : "snadella@edd.com",
       "estado" : "NL",
-      "asunto" : "Reunión",
-      "mensaje" : "¿Nos juntamos esta semana?"
+      "asunto" : "Reuni?n",
+      "mensaje" : "?Nos juntamos esta semana?"
     },
     {
       "id" : 4,
       "remitente" : "rms@edd.com",
       "destinatario" : "ghopper@edd.com",
       "estado" : "NL",
-      "asunto" : "Colaboración",
-      "mensaje" : "¿Te interesa colaborar en algo libre?"
+      "asunto" : "Colaboraci?n",
+      "mensaje" : "?Te interesa colaborar en algo libre?"
     },
     {
       "id" : 8,
@@ -62,15 +62,31 @@
       "destinatario" : "smejia@edd.com",
       "estado" : "NL",
       "asunto" : "Linux",
-      "mensaje" : "¿Te unes a mejorar el kernel?"
+      "mensaje" : "?Te unes a mejorar el kernel?"
     },
     {
       "id" : 11,
       "remitente" : "alovelace@edd.com",
       "destinatario" : "snadella@edd.com",
       "estado" : "NL",
-      "asunto" : "Algo rápido",
+      "asunto" : "Algo r?pido",
       "mensaje" : "Mira esto cuando tengas 2 mins."
+    },
+    {
+      "id" : 11,
+      "remitente" : "a",
+      "destinatario" : "r",
+      "asunto" : "hola",
+      "mensaje" : "jejej",
+      "estado" : "NL"
+    },
+    {
+      "id" : 17,
+      "remitente" : "aux-luis@edd.com",
+      "destinatario" : "aux-marcosg@edd.com",
+      "asunto" : "prueba ",
+      "mensaje" : "Fase3",
+      "estado" : "NL"
     }
   ]
 }
